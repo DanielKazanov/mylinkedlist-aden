@@ -48,7 +48,7 @@ public class MyLinkedList<E> extends AbstractList<E> {
 	private LLNode<E> getNodeAtIndex(int index) {
 		LLNode<E> currentNode;
 		
-		if (size / 2 >= index) {
+		if (size / 2 >= index) { // index is in first half of the linked list (start from the head)
 			currentNode = head;
 			int counter = -1;
 			
@@ -57,7 +57,7 @@ public class MyLinkedList<E> extends AbstractList<E> {
 				counter++;
 			}
 		
-		} else {
+		} else { // index is in second half of the linked list (start from the tail)
 			currentNode = tail;
 			int counter = size;
 			
@@ -96,7 +96,7 @@ public class MyLinkedList<E> extends AbstractList<E> {
 			throw new IndexOutOfBoundsException("Index out of bounds.");
 		}
 		
-		LLNode<E> newNode = new LLNode<>(element, getNodeAtIndex(index).prev, getNodeAtIndex(index));
+		new LLNode<>(element, getNodeAtIndex(index).prev, getNodeAtIndex(index));
 		size++;
 	}
 
@@ -122,11 +122,11 @@ public class MyLinkedList<E> extends AbstractList<E> {
 			throw new IndexOutOfBoundsException("Index out of bounds.");
 		}
 		
-		LLNode<E> node = getNodeAtIndex(index);
+		LLNode<E> node = getNodeAtIndex(index); // Saves node for returning its data
 		node.prev.next = node.next;
 		node.next.prev = node.prev;
-		node.prev = null;
-		node.next = null;
+		node.prev = null; // Removes node data
+		node.next = null; // Removes node data
 		size--;
 		return node.data;
 	}
@@ -145,7 +145,7 @@ public class MyLinkedList<E> extends AbstractList<E> {
 		}
 		
 		LLNode<E> setNode = getNodeAtIndex(index);
-		E oldNode = setNode.data;
+		E oldNode = setNode.data; // Saves old node for returning its data
 		setNode.data = element;
 		
 		return oldNode;
