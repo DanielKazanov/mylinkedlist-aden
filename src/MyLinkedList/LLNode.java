@@ -14,8 +14,12 @@ public class LLNode<E> {
 	
 	// TODO: Add a parameterized constructor that also inserts the node 
 	//       in the correct location in the list
-	public LLNode(E e, LLNode prev, LLNode next) {
-		
+	public LLNode(E e, LLNode<E> prev, LLNode<E> next) { // <E>
+		this.data = e;
+		prev.next = this;
+		next.prev = this;
+		this.next = next;
+		this.prev = prev;
 	}
 
 }

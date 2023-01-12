@@ -18,7 +18,10 @@ public class MyLinkedList<E> extends AbstractList<E> {
 		// Must construct head and tail pointers due to final declaration.
 		head = new LLNode<>(null);      
 		tail = new LLNode<>(null);
-		// TODO: Finish implementing this method
+		
+		head.next = tail;
+		tail.prev = head;
+		size = 0;
 	}
 
 	/**
@@ -28,7 +31,8 @@ public class MyLinkedList<E> extends AbstractList<E> {
 	 */
 	public boolean add(E element ) 
 	{
-		// TODO: Implement this method
+		new LLNode<>(element, tail.prev, tail);
+		size++;
 		return true;
 	}
 
@@ -42,8 +46,28 @@ public class MyLinkedList<E> extends AbstractList<E> {
 	 * @return the node at the specified index
 	 */
 	private LLNode<E> getNodeAtIndex(int index) {
-		// TODO: Implement this method
-		return null;
+		LLNode<E> currentNode;
+		
+		if (size / 2 >= index) {
+			currentNode = head;
+			int counter = -1;
+			
+			while (counter != index) {
+				currentNode = currentNode.next;
+				counter++;
+			}
+		
+		} else {
+			currentNode = tail;
+			int counter = size;
+			
+			while (counter != index) {
+				currentNode = currentNode.prev;
+				counter--;
+			}
+		}
+		
+		return currentNode;
 	}
 
 	/** Get the element at position index 
@@ -54,8 +78,11 @@ public class MyLinkedList<E> extends AbstractList<E> {
 	 */
 	public E get(int index) throws IndexOutOfBoundsException 
 	{
-		// TODO: Implement this method
-		return null;
+		if (index < 0 || index > size - 1) {
+			throw new IndexOutOfBoundsException("Index out of bounds.");
+		}
+		
+		return getNodeAtIndex(index).data;
 	}
 
 	/**
@@ -65,7 +92,12 @@ public class MyLinkedList<E> extends AbstractList<E> {
 	 */
 	public void add(int index, E element ) throws IndexOutOfBoundsException 
 	{
-		// TODO: Implement this method
+		if (index < 0 || index > size) {
+			throw new IndexOutOfBoundsException("Index out of bounds.");
+		}
+		
+		LLNode<E> newNode = new LLNode<>(element, getNodeAtIndex(index).prev, getNodeAtIndex(index));
+		size++;
 	}
 
 
@@ -75,8 +107,7 @@ public class MyLinkedList<E> extends AbstractList<E> {
 	 */
 	public int size() 
 	{
-		// TODO: Implement this method
-		return -1;
+		return size;
 	}
 
 	/** Remove a node at the specified index and return its data element.
@@ -87,8 +118,17 @@ public class MyLinkedList<E> extends AbstractList<E> {
 	 */
 	public E remove(int index) throws IndexOutOfBoundsException 
 	{
-		// TODO: Implement this method
-		return null;
+		if (index < 0 || index > size - 1) {
+			throw new IndexOutOfBoundsException("Index out of bounds.");
+		}
+		
+		LLNode<E> node = getNodeAtIndex(index);
+		node.prev.next = node.next;
+		node.next.prev = node.prev;
+		node.prev = null;
+		node.next = null;
+		size--;
+		return node.data;
 	}
 
 	/**
@@ -100,8 +140,14 @@ public class MyLinkedList<E> extends AbstractList<E> {
 	 */
 	public E set(int index, E element) throws IndexOutOfBoundsException 
 	{
-		// TODO: Implement this method
-		return null;
-	}   
+		if (index < 0 || index > size - 1) {
+			throw new IndexOutOfBoundsException("Index out of bounds.");
+		}
+		
+		LLNode<E> setNode = getNodeAtIndex(index);
+		E oldNode = setNode.data;
+		setNode.data = element;
+		
+		return oldNode;
+	}  
 }
-
